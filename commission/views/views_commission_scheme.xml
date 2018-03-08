@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<odoo>
+  
+  <record id="commission_scheme_form_view" model="ir.ui.view">
+    <field name="name">commission.scheme.form</field>
+    <field name="model">commission.scheme</field>
+    <field name="arch" type="xml">
+      <form string="Commission scheme">
+        <header>
+          <button string="Calculate" type="object" name="calculate"/>
+        </header>
+        <group>
+          <field name="name"/>
+          <field name="active"/>
+          <field name="product" />
+          <field name="tier_ids" />
+        </group>
+      </form>
+    </field>
+  </record>
+
+  <record id="commission_scheme_list_view" model="ir.ui.view">
+    <field name="name">commission.scheme.list</field>
+    <field name="model">commission.scheme</field>
+    <field name="arch" type="xml">
+      <tree>        
+        <field name="name"/>
+        <field name="active"/>
+        <field name="product" />
+      </tree>
+    </field>
+  </record>
+
+  <record id="commission_group_list_view" model="ir.ui.view">
+    <field name="name">commission.group.list</field>
+    <field name="model">commission.group</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="active"/>
+        <field name="scheme_ids" />
+      </tree>
+    </field>
+  </record>
+
+  <record id="commission_tier_list_view" model="ir.ui.view">
+    <field name="name">commission.tier.list</field>
+    <field name="model">commission.tier</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="type"/>
+        <field name="tier_start" />
+        <field name="tier_end" />
+        <field name="percent" />
+        <field name="amount" />
+      </tree>
+    </field>
+  </record>
+
+  <record id="commission_tier_form_view" model="ir.ui.view">
+    <field name="name">commission.tier.form</field>
+    <field name="model">commission.tier</field>
+    <field name="arch" type="xml">
+      <form string="Commsission tier">
+        <group>
+          <field name="type"/>
+          <field name="tier_start" />
+          <field name="tier_end" />
+          <field name="percent" />
+          <field name="amount" />
+          <field name="active_from" />
+          <field name="active_end" />
+          <field name="trigger" />
+        </group>
+      </form>
+    </field>
+  </record>
+
+  <!--
+  <record id="view_tree_commission_scheme" model="'ir.ui.view">
+    <field name="name">Commission scheme tree</field>
+    <field name="model">commission.scheme</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+        <field name="active"/>
+        <field name="product"/>
+      </tree>
+    </field>  
+  </record>
+  -->
+
+  <record id="commission_hierarchy_list_view" model="ir.ui.view">
+    <field name="name">commission.hierarchy.list</field>
+    <field name="model">commission.hierarchy</field>
+    <field name="arch" type="xml">
+      <tree string="Commission list">
+        <field name="display_name" string="Nodes" />
+        <field name="team" />
+      </tree>
+    </field>
+  </record>
+
+  <record id="commission_hierarchy_form_view" model="ir.ui.view">
+    <field name="name">commission.hierarchy.form</field>
+    <field name="model">commission.hierarchy</field>
+    <field name="arch" type="xml">
+      <form>
+        <group string="Commission node">
+          <field name="name" />
+          <field name="parent_id" />
+          <field name="team" />
+        </group>
+        <group>
+          <field name="child_id" readonly="1" />    
+        </group>
+      </form>
+    </field>
+  </record>
+
+  <!--
+  <record id="commission_hierarchy_search_view" model="ir.ui.view">
+            <field name="name">commission.hierarchy.search</field>
+            <field name="model">Commission.hierarchy</field>
+            <field name="arch" type="xml">
+                <search string="Commission hierarchy">
+                    <field name="name" string="Commission hierarchy"/>
+                    <field name="parent_id"/>
+                </search>
+            </field>
+        </record>
+  -->
+
+  <record id="commission_summary_list_view" model="ir.ui.view">
+    <field name="name">commission.summary.list</field>
+    <field name="model">commission.summary</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="sales_agent" readonly="1" />
+        <field name="start_date" readonly="1"/>
+        <field name="end_date" readonly="1"/>
+        <field name="amount" readonly="1"/>
+      </tree>
+    </field>
+  </record>
+
+   <record id="commission_summary_form_view" model="ir.ui.view">
+    <field name="name">commission.summary.form</field>
+    <field name="model">commission.summary</field>
+    <field name="arch" type="xml">
+      <form string="Commission summary">
+        <header>
+          <button string="Calculate" type="object" name="calculate"/>
+        </header>
+        <group>
+           <field name="sales_agent" readonly="1" />
+          <field name="start_date" readonly="1" />
+          <field name="end_date" readonly="1" />
+          <field name="amount" readonly="1" />
+        </group>
+        <field name="detail" readonly="1" />
+      </form>
+    </field>
+  </record>
+</odoo>

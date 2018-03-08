@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+    <record model="ir.module.category" id="commission_management">
+      <field name="name">Commission</field>
+      <field name="description">User access level for commission module</field>
+      <field name="sequence">3</field>
+    </record>
+    <record id="group_user" model="res.groups">
+     <field name="name">User</field>
+     <field name="category_id" ref="commission_management"/>
+    </record>
+     <record id="group_manager" model="res.groups">
+     <field name="name">Manager</field>
+     <field name="category_id" ref="commission_management"/>
+    </record>
+
+  </data>
+</odoo>
+
+<!--
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+demo_admin, Model admin access,model_demo_access_rights,user_access_rights_demo.group_manager,1,1,1,1
+demo_user, Model user access,model_demo_access_rights,user_access_rights_demo.group_user,1,0,0,0
+
+<record model="ir.module.category" id="module_management">
+  <field name="name">Demo module access</field>
+  <field name="description">User access level for this module</field>
+  <field name="sequence">3</field>
+</record>
+
+
+   <record id="group_user" model="res.groups">
+     <field name="name">User</field>
+     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+     <field name="users" eval="[(4, ref('base.user_root'))]"/>
+     <field name="category_id" ref="user_access_rights_demo.module_management"/>
+    </record>
+
+    <record id="group_manager" model="res.groups">
+      <field name="name">Manager</field>
+      <field name="implied_ids" eval="[(4, ref('user_access_rights_demo.group_user'))]"/>
+      <field name="category_id" ref="user_access_rights_demo.module_management"/>
+    </record>
+
+-->

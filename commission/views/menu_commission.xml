@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<odoo>
+  <act_window
+   id="action_commission_scheme"
+   name ="Commission scheme"
+   res_model="commission.scheme"
+   view_id="commission_scheme_list_view"
+   view_mode="tree,form" /> 
+
+  <act_window
+   id="action_commission_group"
+   name ="Commission group"
+   res_model="commission.group"
+   view_mode="tree,form" />
+  
+  <act_window
+   id="action_commission_tier"
+   name ="Commission tier"
+   res_model="commission.tier"
+   view_id="commission_tier_list_view"
+   view_mode="tree,form" />
+  
+   <act_window
+    id="action_commission_tree"
+    name ="Commission hierarchy"
+    res_model="commission.hierarchy"
+    view_id="commission_hierarchy_list_view"
+    view_mode="tree,form" />
+
+  <act_window
+    id="action_commission_summary"
+    name ="Commission summary"
+    res_model="commission.summary"
+    view_id="commission_summary_list_view"
+    view_mode="tree,form" />
+
+
+  <menuitem id="commission" name="Commission" />
+  <menuitem
+    id="commission_header"
+    name="Commission"
+    parent="commission"
+    sequence="10"
+    groups="base.group_system"/>
+  <menuitem
+    id="commission_scheme"
+    name="Scheme"
+    parent="commission_header"
+    sequence="10"
+    action="action_commission_scheme" />
+  <menuitem
+    id="commission_group"
+    name="Group"
+    parent="commission_header"
+    sequence="20" 
+    action="action_commission_group"/>
+  <!--
+  <menuitem
+    id="commission_tier"
+    name="Tier"
+    parent="commission_header"
+    sequence="30" 
+    action="action_commission_tier"/>
+  -->
+  <menuitem
+   id="commission_summary"
+   name="Summary"
+   parent="commission_header"
+   sequence="40"
+   action="action_commission_summary"/>
+  <menuitem
+    id="commission_reports"
+    name="Reports"
+    parent="commission"
+    sequence="30"
+    groups="base.group_system"/>
+  <menuitem
+    id="commission_report_list"
+    name="Commission detail"
+    parent="commission_reports"
+    sequence="10"
+    action="action_commission_scheme" />
+  <menuitem
+    id="commission_report_salesagent"
+    name="Commission by sales agent"
+    parent="commission_reports"
+    sequence="20"
+    action="action_commission_scheme" />
+  <menuitem
+    id="commission_config"
+    name="Configuration"
+    parent="commission"
+    sequence="40"
+    groups="base.group_system" />
+  <menuitem
+    id="commission_setting"
+    name="Settings"
+    parent="commission_config"
+    sequence="10"
+    action="action_commission_scheme" />
+<menuitem
+    id="sales_hierarchy"
+    name="Commission hierarchy"
+    parent="commission_config"
+    sequence="20"
+    action="action_commission_tree" />
+</odoo>

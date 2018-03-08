@@ -1,0 +1,10 @@
+﻿id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_commission_summary,commission_summary,model_commission_summay,commission_management.group_user,1,0,0,0
+access_commission_detail,commission_detail,model_commission_detail,commission_management.group_user,1,0,0,0
+access_commission_group,commission_group,model_commission_group,commission_management.group_manager,1,1,1,1
+access_commission_scheme,commission_scheme,model_commission_scheme,commission_management.group_manager,1,1,1,1
+access_commission_tier,commission_tier,model_commission_tier,commission_management.group_manager,1,1,1,1
+access_commission_hierarchy,commission_hierarchy,model_commission_hierarchy,commission_management.group_manager,1,1,1,1
+access_commssion_calc,commission_calc,model_commission,commission_management.group_manager,1,1,1,1
+manage_commission_summary,commission_msummary,model_commission_summay,commission_management.group_manager,1,1,1,1
+manage_commission_summary,commission_mdetail,model_commission_detail,commission_management.group_manager,1,1,1,1
