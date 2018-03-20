@@ -2,10 +2,12 @@
 class CommissionData():
     prod_id1 = 1
     prod_id2 = 2
-    agent_id1 = 5
-    agent_id2 = 10
-    manager_id1 = 1
-    manager_id2 = 9
+    agent_id1 = 688
+    agent_id2 = 668
+    team_id1 = 220
+    team_id2 = 221
+    lead_super_id1 = 215
+    manager_team_id1 = 211
     
     tier1 = {
         'type' : 'q',

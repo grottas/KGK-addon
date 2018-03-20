@@ -11,4 +11,5 @@ class commission_summary(models.Model):
     end_date = fields.Datetime(string ='End period', required=True)
     sales_agent = fields.Many2one('res.users', required=True)
     amount = fields.Float(string ='Amount')
+    points = fields.Integer(string = 'Points')
     detail = fields.One2many('commission.detail', 'summary', string='Commission detail')

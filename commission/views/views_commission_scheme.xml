@@ -12,6 +12,8 @@
         <group>
           <field name="name"/>
           <field name="active"/>
+          <field name="aggregation" />
+          <field name="points" />
           <field name="product" />
           <field name="tier_ids" />
         </group>
@@ -25,8 +27,9 @@
     <field name="arch" type="xml">
       <tree>        
         <field name="name"/>
-        <field name="active"/>
         <field name="product" />
+        <field name="aggregation" />
+        <field name="active"/>
       </tree>
     </field>
   </record>
@@ -37,8 +40,8 @@
     <field name="arch" type="xml">
       <tree>
         <field name="name"/>
-        <field name="active"/>
         <field name="scheme_ids" />
+        <field name="active"/>
       </tree>
     </field>
   </record>
@@ -71,6 +74,37 @@
           <field name="active_from" />
           <field name="active_end" />
           <field name="trigger" />
+        </group>
+      </form>
+    </field>
+  </record>
+
+  <record id="commission_target_list_view" model="ir.ui.view">
+    <field name="name">commission.target.list</field>
+    <field name="model">commission.target</field>
+    <field name="arch" type="xml">
+      <tree>        
+        <field name="name"/>
+        <field name="code" />
+        <field name="salary" />
+        <field name="target_start" />
+        <field name="active"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="commission_target_form_view" model="ir.ui.view">
+    <field name="name">commission.target.form</field>
+    <field name="model">commission.target</field>
+    <field name="arch" type="xml">
+      <form string="Sales target">
+        <group>
+          <field name="name"/>
+          <field name="code" />
+          <field name="target_start" />
+          <field name="target_end" />
+          <field name="salary" />
+          <field name="active" />
         </group>
       </form>
     </field>
@@ -140,6 +174,7 @@
         <field name="start_date" readonly="1"/>
         <field name="end_date" readonly="1"/>
         <field name="amount" readonly="1"/>
+        <field name="points" readonly="1"/>
       </tree>
     </field>
   </record>
@@ -153,7 +188,7 @@
           <button string="Calculate" type="object" name="calculate"/>
         </header>
         <group>
-           <field name="sales_agent" readonly="1" />
+          <field name="sales_agent" readonly="1" />
           <field name="start_date" readonly="1" />
           <field name="end_date" readonly="1" />
           <field name="amount" readonly="1" />

@@ -33,6 +33,13 @@
     res_model="commission.summary"
     view_id="commission_summary_list_view"
     view_mode="tree,form" />
+   <act_window
+    id="action_target_tree"
+    name ="Sales target"
+    res_model="commission.target"
+    view_id="commission_target_list_view"
+    view_mode="tree,form" />
+
 
 
   <menuitem id="commission" name="Commission" />
@@ -104,4 +111,10 @@
     parent="commission_config"
     sequence="20"
     action="action_commission_tree" />
+<menuitem
+    id="sales_target"
+    name="Sales target"
+    parent="commission_config"
+    sequence="30"
+    action="action_target_tree" />
 </odoo>

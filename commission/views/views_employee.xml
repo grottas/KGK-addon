@@ -1,0 +1,26 @@
+<odoo>
+   
+  <record model="ir.ui.view" id="view_partner_form">
+      <field name="name">Employee</field>
+      <field name="model">hr.employee</field>
+      <field name="inherit_id" ref="hr.view_employee_form"/>
+      <field name="arch" type="xml">
+          <field name = "category_ids" position = "after">
+            <group>
+              <field name="user_id" string="ID" readonly="1" />
+              <field name="sales_target" />
+            </group>
+          </field>
+        <field name="work_location" position="replace">
+          <field name="work_location" invisible="1"/>
+        </field> 
+        <field name="coach_id" position="replace">
+          <field name="coach_id" invisible="1"/>
+        </field> 
+        <field name="resource_calendar_id" position="replace">
+          <field name="resource_calendar_id" invisible="1"/>
+        </field> 
+      </field>
+  </record>
+
+</odoo>

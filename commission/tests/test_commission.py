@@ -26,28 +26,20 @@ class TestCommission(TransactionCase):
       .write({'active': False})
 
     # set all teams inactive
-    self.env['crm.team'] \
-      .search([('active', '=', True)]) \
-      .write({'active': False})
+    #self.env['crm.team'] \
+    #  .search([('active', '=', True)]) \
+    #  .write({'active': False})
   
-  # test the setup of schemes
-  """
-  def test_populate_scheme(self):
+  # test the commission configuraton
+  def test_populate_commission(self):
     self.populate_scheme()
 
-    count = len(self.env['commission.group'].search([('name', '=', 'manager')]))
-    self.assertEqual(count, 1, 'group assertions')
-  
-  # create the commission hierarchy
-  def test_populate_hierarchy(self):
     self.populate_hierarchy()
 
-  def test_populate_user(self):
-    self.populate_user()
+    #self.populate_user()
   
-  def test_populate_team(self):
     self.populate_team()
-  """
+  
   def test_calculate_commission(self):
     self.calculate_commission()
   
@@ -56,7 +48,8 @@ class TestCommission(TransactionCase):
 ###################################################################################################################################
 # private helper methods
   # create the tiers, schemes and groups
-  def populate_scheme(self, leads=[], agents=[]):
+  def populate_scheme(self):
+    print('populate scheme')
     # use demo user
     demo_user = self.env.ref('base.user_demo')
 
@@ -81,7 +74,7 @@ class TestCommission(TransactionCase):
     self.scheme4 = scheme.create(cd.scheme_m2)
     self.arr_schemes.append(self.scheme3.id)
 
-    # create two commission group
+    # create two commission groups
     group = self.env['commission.group']
     self.group1 = group.create({
       'name' : 'manager',
@@ -100,11 +93,11 @@ class TestCommission(TransactionCase):
     self.group1.scheme_ids += self.scheme3
     self.group1.scheme_ids += self.scheme4
 
-    #assign user to groups
-    for lead in leads:
-      self.group1.salesperson_ids += lead
-    for agent in agents:
-      self.group2.salesperson_ids += agent
+    #assign team to groups
+    self.team1 = self.env['crm.team'].search([('id', '=', cd.team_id1)])
+    self.manager_team1 = self.env['crm.team'].search([('id', '=', cd.manager_team_id1)])
+    self.group1.team_ids += self.manager_team1[0]
+    self.group2.team_ids += self.team1[0]
 
     count = len(scheme.search([('active', '=', True)]))
     self.assertEqual(count, 4, 'error creating schemes')
@@ -115,10 +108,10 @@ class TestCommission(TransactionCase):
     count = len(group.search([('active', '=', True)]) )
     self.assertEqual(count, 2, 'wrong group count')
 
-    count = len(self.group1.salesperson_ids)
-    self.assertEqual(count, 5, 'manager group count')
-    count = len(self.group2.salesperson_ids)
-    self.assertEqual(count, 20, 'agent group count')
+    count = len(group.search([('team_ids', '=', cd.manager_team_id1)]))
+    self.assertEqual(count, 1, 'manager group - team count')
+    count = len(self.group2.team_ids)
+    self.assertEqual(count, 1, 'agent group - team count')
 
   # create the commission hierarchy
   def populate_hierarchy(self):
@@ -230,7 +223,7 @@ class TestCommission(TransactionCase):
           'active' : True,
           'user_id' : x
         })
-        self.arr_teams.append(self.team1)
+        #self.arr_teams.append(self.team1)
 
       name = 'team ' + str(agents[0])
       count = len(team.search([('name', '=', name)]))
@@ -265,16 +258,16 @@ class TestCommission(TransactionCase):
 
   # commission calculation
   def calculate_commission(self):
-    self.populate_user()
-    self.populate_scheme(self.arr_leads, self.arr_users)
+    #self.populate_user()
+    self.populate_scheme()
     self.populate_team()
     self.populate_hierarchy()
     # get user_ids for agents
     arr_agents = []
     for user in self.arr_users:
       arr_agents.append(user.id)
-    self.create_sales(arr_agents)
-    self.execute_calc()
+    #self.create_sales(arr_agents)
+    #elf.execute_calc()
 
 
   # create sales order

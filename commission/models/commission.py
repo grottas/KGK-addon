@@ -5,7 +5,7 @@ import datetime
 
 
 class Commission(models.Model):
-    _name="commission"
+    _name="commission_old"
 
     @api.multi
     def calculate(self):
@@ -73,7 +73,7 @@ class Commission(models.Model):
             for id in scheme.tier_ids:
                 arr_tiers.append(id.id)
 
-        # find order lines with product applicable for commssion
+        # find order lines with product applicable for commission
         calc_time = datetime.datetime.now()
         lines = self.env['sale.order.line'].search([('salesman_id', '=', user_id), ('product_id', 'in', arr_product_ids), \
             ('write_date', '>', fields.Datetime.to_string(start_time))])

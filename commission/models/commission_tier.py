@@ -20,7 +20,7 @@ class CommissionTier(models.Model):
     @api.onchange('tier_start')
     def check_overlap(self):
         scheme_id = self.scheme
-        start = self.tierStart
+        start = self.tier_start
 
         print(start)
-        print(scheme)
+        print(scheme_id)
