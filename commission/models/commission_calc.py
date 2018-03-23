@@ -30,15 +30,18 @@ class CommissionCalc(models.Model):
         if(temp_time == None):
             start_time = datetime.datetime(2000, 1, 1)
         else:
-            start_time ==  datetime.datetime.strptime(temp_time[0], '%Y-%m-%d %H:%M:%S.%f')
+            #start_time ==  datetime.datetime.strptime(temp_time[0], '%Y-%m-%d %H:%M:%S.%f')
+            start_time = fields.Datetime.from_string(temp_time[0])
+
         print('start time %s'  % (start_time))
-        print(start_time)
+        
         
         for agent in list(dict_agents.keys()):
             print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
             print('calc for agent: %d - %s' % (agent,  dict_agents[agent]))
             self.__calc_agent(agent, start_time)
-
+        
+        #self.__calc_agent(688, start_time)
         self.__calc_commission_based(start_time)
         
 
@@ -50,12 +53,14 @@ class CommissionCalc(models.Model):
         today = datetime.date.today()
         arr_details = []
         total_amount = 0.0
+        total_points = 0
 
         #find all teams the agent is member of and then all related groups
         teams = self.env['crm.team'].search([('active', '=', True), ('member_ids', '=', agent_id)])
         arr_teams = []
         for team in teams:
             arr_teams.append(team.id)
+
         groups = self.env['commission.group'].search([('active', '=', True), ('team_ids', 'in', arr_teams)])
         for group in groups:
             schemes = group.scheme_ids
@@ -92,11 +97,16 @@ class CommissionCalc(models.Model):
             
             print('number of lines %d' % len(salelines))
             for saleline in salelines:
+                print('id %d name %s qty %d' % (saleline.id, saleline.name, saleline.product_uom_qty))
                 trigger_amount += saleline.price_total
                 trigger_qty += saleline.product_uom_qty
                 if saleline.product_id.id == scheme.product.id:
                     eligable_amount += saleline.price_total;
                     eligable_qty += saleline.product_uom_qty
+
+            #points are calculate on quantity
+            points = eligable_qty*scheme.points
+            total_points += points
 
             # find eligable tiers
             for tier in scheme.tier_ids:
@@ -130,7 +140,7 @@ class CommissionCalc(models.Model):
                     continue
                 
                 total_amount += amount
-                print('@@@@@ qty %d amount %d' %(eligable_qty, amount))
+                print('@@@@@ qty %d amount %d points %d' %(eligable_qty, amount, points))
 
                 dict_detail = dict()
                 dict_detail.update({'calc_datetime' : calc_time})
@@ -185,6 +195,7 @@ class CommissionCalc(models.Model):
         dicProducts = dict()
         total_commission = 0.0
         dict_schemes = dict()
+        total_points = 0
 
         # if no team, i.e. no manager assigned skip
         if not node.team:
@@ -221,9 +232,14 @@ class CommissionCalc(models.Model):
             arr_tmp.append(report.id)
 
         print('number of members: %d'  % len(arr_tmp))
+
+        # calculate points based on the number of products sold by reports
+        total_points = self.__calc_points(arr_tmp, dict_schemes, dicProducts, start_time)
+        print('points %d' % total_points)
                 
         for product in dicProducts.keys():
             total = 0.0
+            qty = 0
             commission = 0.0
             dic_summary = dict()
             arr_details = []
@@ -269,8 +285,34 @@ class CommissionCalc(models.Model):
         dict_summary.update({'sales_agent' : manager.id})
         dict_summary.update({'amount' : total_commission})
         dict_summary.update({'detail' : arr_details})
+        dict_summary.update({'points' : total_points})
             
         self.env['commission.summary'].create(dict_summary)
 
-        print('++total commission %d ' % total_commission)
+        print('++total commission %d points %d' % (total_commission, total_points))
+
+
+    @api.model
+    def __calc_points(self, arr_reports, dict_schemes, dict_product, start_time):
+        # calculate the points on the quantity sold for each eligable product
+        total_points = 0
+        dict_points = dict()
+
+        #arr_products = list(dict_products.keys())
+        arr_schemes = list(dict_schemes.keys())
+        schemes = self.env['commission.scheme'].search([('id', 'in', arr_schemes)])
+        for scheme in schemes:
+            dict_points.update({scheme.product.id : scheme.points})
+
+        salelines = self.env['sale.order.line'].search([('salesman_id', 'in', arr_reports), \
+            ('write_date', '>', fields.Datetime.to_string(start_time))])
+        for saleline in salelines:
+            product = saleline.product_id.id
+            qty = saleline.product_uom_qty
+            print('calc points for product %d' % product)
+            points = dict_points.get(product)
+            print(points)
+            if points is not None:
+                total_points += qty*points
             
+        return total_points
