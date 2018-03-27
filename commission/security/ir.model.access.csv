@@ -10,6 +10,8 @@ manage_commission_target,commission_mtarget,commission.model_commission_target,c
 access_commission_target,commission_target,commission.model_commission_target,commission.group_user,1,0,0,0
 access_sales_status,sales_status,commission.model_sale_status,commission.group_user,1,0,0,0
 manage_sales_status,sales_mstatus,commission.model_sale_status,commission.group_manager,1,1,1,1
+access_sales_status_detail,sales_status_detail,commission.model_sale_status_detail,commission.group_user,1,0,0,0
+manage_sales_status_detail,sales_mstatus,commission.model_sale_status_detail,commission.group_manager,1,1,1,1
 access_commission_group,commission_group_user,commission.model_commission_group,commission.group_user,1,0,0,0
 manage_commission_group,commission_group_manager,commission.model_commission_group,commission.group_manager,1,1,1,1
 access_commission_scheme,commission_scheme_user,commission.model_commission_scheme,commission.group_user,1,0,0,0
