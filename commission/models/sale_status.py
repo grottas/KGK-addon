@@ -30,3 +30,5 @@ class SaleStatusDetail(models.Model):
     sale_status = fields.Many2one('sale.status', required=True, ondelete='cascade')
     status_date = fields.Datetime(string='Date status changed')
     status = fields.Char(string='status')
+    changed_by = fields.Char(string='Status was updated by')
+    notes = fields.Text(string='Status notes')
