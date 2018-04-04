@@ -33,11 +33,17 @@
     res_model="commission.summary"
     view_id="commission_summary_list_view"
     view_mode="tree,form" />
-   <act_window
+  <act_window
     id="action_target_tree"
     name ="Sales target"
     res_model="commission.target"
     view_id="commission_target_list_view"
+    view_mode="tree,form" />
+  <act_window
+    id="action_commission_status"
+    name ="Commission status"
+    res_model="commission.status"
+    view_id="commission_status_list_view"
     view_mode="tree,form" />
 
   <menuitem id="commission" name="Commission" />
@@ -72,7 +78,7 @@
   <menuitem
    id="commission_summary"
    name="Summary"
-   parent="commission_header"
+   parent="commission_reports"
    sequence="40"
    groups="commission.group_user,commission.group_manager"
    action="action_commission_summary"/>
@@ -84,9 +90,9 @@
     groups="commission.group_manager"/>
   <menuitem
     id="commission_report_list"
-    name="Commission detail"
+    name="Commission"
     parent="commission_reports"
-    groups="commission.group_manager"
+    groups="commission.group_manager,commission.group_user"
     sequence="10"
     action="action_commission_summary_report" />
   <menuitem
@@ -97,12 +103,12 @@
     sequence="20"
     action="action_commission_scheme" />
   <menuitem
-    id="commission_report_status"
+    id="commission_status"
     name="Status"
     parent="commission_reports"
-    sequence="30"
-    groups="commission.group_manager"
-    action="action_commission_summary_report" />
+    sequence="40"
+    groups="commission.group_manager,commission.group_user"
+    action="action_commission_status" />
   <menuitem
     id="commission_config"
     name="Configuration"

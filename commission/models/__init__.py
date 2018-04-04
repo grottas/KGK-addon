@@ -9,5 +9,5 @@ from . import commission_hierarchy
 from . import commission_target
 from . import commission_employee
 from . import commission_calc
-from . import sale_status
+from . import commission_status
 

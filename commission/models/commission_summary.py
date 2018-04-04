@@ -13,3 +13,8 @@ class commission_summary(models.Model):
     amount = fields.Float(string ='Amount')
     points = fields.Integer(string = 'Points')
     detail = fields.One2many('commission.detail', 'summary', string='Commission detail')
+
+
+    @api.model
+    def get_report_values(self, userid):
+        return self.env['commission.report'].get_report_values(userid)

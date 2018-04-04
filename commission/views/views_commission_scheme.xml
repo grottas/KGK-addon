@@ -179,7 +179,7 @@
     </field>
   </record>
 
-   <record id="commission_summary_form_view" model="ir.ui.view">
+  <record id="commission_summary_form_view" model="ir.ui.view">
     <field name="name">commission.summary.form</field>
     <field name="model">commission.summary</field>
     <field name="arch" type="xml">
@@ -195,6 +195,67 @@
         </group>
         <field name="detail" readonly="1" />
       </form>
+    </field>
+  </record>
+
+  <record id="commission_status_form_view" model="ir.ui.view">
+    <field name="name">commission.status.form</field>
+    <field name="model">commission.status</field>
+    <field name="arch" type="xml">
+      <form string="Sales status">
+        <group>
+          <field name="identifier" string="External ID" readonly="1" />
+          <field name="partner" readonly="1" />
+          <field name="customer" readonly="1" />
+          <field name="product" readonly="1" />
+          <field name="sales_agent" readonly="1" />
+          <field name="update_date" readonly="1" />
+        </group>
+        <field name="detail" readonly="1" />
+      </form>
+    </field>
+  </record>
+
+  <record id="commission_status_list_view" model="ir.ui.view">
+    <field name="name">commission.status.list</field>
+    <field name="model">commission.status</field>
+    <field name="arch" type="xml">
+      <tree string="Commission status list">
+        <field name="partner" readonly="1" />
+        <field name="sales_agent" readonly="1" />
+        <field name="identifier" string="External ID" readonly="1" />
+        <field name="customer" readonly="1" />
+        <field name="product" readonly="1" />        
+        <field name="update_date" readonly="1" />
+      </tree>
+    </field>
+  </record>
+
+  <record id="commission_status_detail_form_view" model="ir.ui.view">
+    <field name="name">commission.status.detail.form</field>
+    <field name="model">commission.status.detail</field>
+    <field name="arch" type="xml">
+      <form string="History">
+        <group>
+          <field name="status_date" readonly="1" />
+          <field name="status" readonly="1" />
+          <field name="changed_by" readonly="1" />
+          <field name="notes" readonly="1" />
+        </group>
+      </form>
+    </field>
+  </record>
+
+  <record id="commission_status_detail_list_view" model="ir.ui.view">
+    <field name="name">commission.status_detail.list</field>
+    <field name="model">commission.status.detail</field>
+    <field name="arch" type="xml">
+      <tree string="History">
+        <field name="status_date" readonly="1" />
+        <field name="status" readonly="1" />
+        <field name="changed_by" readonly="1" />
+        <field name="notes" readonly="1" />
+      </tree>
     </field>
   </record>
 </odoo>
