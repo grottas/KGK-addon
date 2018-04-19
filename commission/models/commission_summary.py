@@ -15,6 +15,16 @@ class commission_summary(models.Model):
     detail = fields.One2many('commission.detail', 'summary', string='Commission detail')
 
 
+    @api.multi
+    def name_get(self):
+        names = []
+        for summary in self:
+            name = 'Commission for: '
+            name += summary.sales_agent.name
+            names.append((summary.id, name))
+        return names
+    
+
     @api.model
     def get_report_values(self, userid):
         return self.env['commission.report'].get_report_values(userid)
