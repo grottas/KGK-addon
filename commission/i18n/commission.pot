@@ -1,0 +1,663 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* commission
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-04-24 00:59+0000\n"
+"PO-Revision-Date: 2018-04-24 00:59+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_group_active
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_active
+#: model:ir.model.fields,field_description:commission.field_commission_target_active
+msgid "Active?"
+msgstr "Kích hoạt"
+
+#. module: commission
+#: model:ir.ui.view,arch_db:commission.commission_summary_report
+msgid "Agent"
+msgstr "Đại lý"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_aggregation
+msgid "Aggregate by"
+msgstr "Phê duyệt"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_amount
+#: model:ir.model.fields,field_description:commission.field_commission_report_amount
+#: model:ir.model.fields,field_description:commission.field_commission_status_amount
+#: model:ir.model.fields,field_description:commission.field_commission_summary_amount
+#: model:ir.ui.view,arch_db:commission.commission_summary_report
+msgid "Amount"
+msgstr "Tổng tiền"
+
+#. module: commission
+#: model:ir.filters,name:commission.filter_commission_report_salespersons
+msgid "By Salespersons"
+msgstr ""
+
+#. module: commission
+#: model:ir.ui.view,arch_db:commission.commission_scheme_form_view
+#: model:ir.ui.view,arch_db:commission.commission_summary_form_view
+msgid "Calculate"
+msgstr "Tính chi phí"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_tier_type
+msgid "Calculation base"
+msgstr "Cơ sở tính phí"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_calc_datetime
+msgid "Calculation date"
+msgstr "Ngày tính phí"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_child_id
+msgid "Child nodes"
+msgstr ""
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_target_code
+msgid "Code"
+msgstr "Mã số"
+
+#. module: commission
+#: selection:commission.tier,trigger:0
+#: model:ir.module.category,name:commission.commission_management
+#: model:ir.ui.menu,name:commission.commission
+#: model:ir.ui.menu,name:commission.commission_header
+#: model:ir.ui.menu,name:commission.commission_report_list
+msgid "Commission"
+msgstr "Hoa hồng"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_tier_amount
+msgid "Commission amount"
+msgstr "Tổng hoa hồng"
+
+#. module: commission
+#: model:ir.ui.menu,name:commission.commission_report_salesagent
+msgid "Commission by sales agent"
+msgstr "Hoa hồng từ đại lý/sales"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_summary_detail
+msgid "Commission detail"
+msgstr "Hoa hồng chi tiết"
+
+#. module: commission
+#: model:ir.actions.act_window,name:commission.action_commission_group
+#: model:ir.model.fields,field_description:commission.field_commission_detail_commission_group
+msgid "Commission group"
+msgstr "Nhóm hoa hồng"
+
+#. module: commission
+#: model:ir.actions.act_window,name:commission.action_commission_tree
+#: model:ir.ui.menu,name:commission.sales_hierarchy
+msgid "Commission hierarchy"
+msgstr "Bậc hoa hồng"
+
+#. module: commission
+#: model:ir.ui.view,arch_db:commission.commission_hierarchy_list_view
+msgid "Commission list"
+msgstr "Danh mục hoa hồng"
+
+#. module: commission
+#: model:ir.ui.view,arch_db:commission.commission_hierarchy_form_view
+msgid "Commission node"
+msgstr "Nút hoa hồng"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_tier_percent
+msgid "Commission percent"
+msgstr "Phần trăm hoa hồng"
+
+#. module: commission
+#: model:ir.actions.report,name:commission.action_commission_summary_report
+msgid "Commission report"
+msgstr "Báo cáo hoa hồng"
+
+#. module: commission
+#: model:ir.actions.act_window,name:commission.action_commission_scheme
+#: model:ir.model.fields,field_description:commission.field_commission_detail_commission_scheme
+#: model:ir.ui.view,arch_db:commission.commission_scheme_form_view
+msgid "Commission scheme"
+msgstr "Kế hoạch hoa hồng"
+
+#. module: commission
+#: model:ir.actions.act_window,name:commission.action_commission_status
+msgid "Commission status"
+msgstr "Tình trạng hoa hồng"
+
+#. module: commission
+#: model:ir.ui.view,arch_db:commission.commission_status_list_view
+msgid "Commission status list"
+msgstr "Danh mục tình trạng hoa hồng"
+
+#. module: commission
+#: model:ir.actions.act_window,name:commission.action_commission_summary
+#: model:ir.ui.view,arch_db:commission.commission_summary_form_view
+msgid "Commission summary"
+msgstr "Tóm tắt hoa hồng"
+
+#. module: commission
+#: model:ir.actions.act_window,name:commission.action_commission_tier
+#: model:ir.model.fields,field_description:commission.field_commission_detail_commission_tier
+msgid "Commission tier"
+msgstr "Hoa hồng theo từng cấp"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_tier_ids
+msgid "Commission tiers"
+msgstr "Hoa hồng theo từng cấp"
+
+#. module: commission
+#: model:ir.ui.view,arch_db:commission.commission_tier_form_view
+msgid "Commsission tier"
+msgstr "Hoa hồng theo từng cấp"
+
+#. module: commission
+#: model:ir.ui.menu,name:commission.commission_config
+msgid "Configuration"
+msgstr "Cơ cấu"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_create_uid
+#: model:ir.model.fields,field_description:commission.field_commission_detail_create_uid
+#: model:ir.model.fields,field_description:commission.field_commission_group_create_uid
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_create_uid
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_create_uid
+#: model:ir.model.fields,field_description:commission.field_commission_status_create_uid
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_create_uid
+#: model:ir.model.fields,field_description:commission.field_commission_summary_create_uid
+#: model:ir.model.fields,field_description:commission.field_commission_target_create_uid
+#: model:ir.model.fields,field_description:commission.field_commission_tier_create_uid
+msgid "Created by"
+msgstr "Tạo bởi "
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_create_date
+#: model:ir.model.fields,field_description:commission.field_commission_detail_create_date
+#: model:ir.model.fields,field_description:commission.field_commission_group_create_date
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_create_date
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_create_date
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_create_date
+#: model:ir.model.fields,field_description:commission.field_commission_summary_create_date
+#: model:ir.model.fields,field_description:commission.field_commission_target_create_date
+#: model:ir.model.fields,field_description:commission.field_commission_tier_create_date
+msgid "Created on"
+msgstr "Tạo từ"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_customer
+msgid "Customer"
+msgstr "Khách hàng"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_create_date
+msgid "Date created"
+msgstr "Ngày tạo "
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_status_date
+msgid "Date status changed"
+msgstr "Tình trạng ngày thay đổi"
+
+#. module: commission
+#: model:ir.model,name:commission.model_commission_scheme
+msgid "Define commission scheme"
+msgstr "Xác định ké hoạch hoa hồng"
+
+#. module: commission
+#: model:ir.model,name:commission.model_commission_group
+#: model:ir.model,name:commission.model_commission_tier
+msgid "Define commission tiers"
+msgstr "Xác định từng cấp hoa hồng"
+
+#. module: commission
+#: model:ir.model,name:commission.model_commission_detail
+msgid "Detailed commission history"
+msgstr "Chi tiết lịch sử hoa hồng"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_display_name
+#: model:ir.model.fields,field_description:commission.field_commission_display_name
+#: model:ir.model.fields,field_description:commission.field_commission_group_display_name
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_display_name
+#: model:ir.model.fields,field_description:commission.field_commission_report_display_name
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_display_name
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_display_name
+#: model:ir.model.fields,field_description:commission.field_commission_status_display_name
+#: model:ir.model.fields,field_description:commission.field_commission_summary_display_name
+#: model:ir.model.fields,field_description:commission.field_commission_target_display_name
+#: model:ir.model.fields,field_description:commission.field_commission_tier_display_name
+msgid "Display Name"
+msgstr "Tên hiển thị"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_target_target_end
+msgid "End"
+msgstr "Kết thúc"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_tier_active_end
+#: model:ir.ui.view,arch_db:commission.commission_summary_report
+msgid "End date"
+msgstr "Ngày kết thúc"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_report_end_date
+#: model:ir.model.fields,field_description:commission.field_commission_summary_end_date
+msgid "End period"
+msgstr "Kỳ kết thúc"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_tier_tier_end
+msgid "End value"
+msgstr "Giá trị cuối"
+
+#. module: commission
+#: code:addons/commission/models/commission_hierarchy.py:36
+#, python-format
+msgid "Error ! You cannot create recursive nodes."
+msgstr "Lỗi! Không thể tạo các nút đệ quy"
+
+#. module: commission
+#: model:ir.ui.view,arch_db:commission.commission_status_form_view
+#: model:ir.ui.view,arch_db:commission.commission_status_list_view
+msgid "External ID"
+msgstr "ID ngoài"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_identifier
+msgid "External identifier"
+msgstr "Nhận dạng ngoài"
+
+#. module: commission
+#: model:ir.model,name:commission.model_commission_report
+msgid "Generate data for commission reports"
+msgstr ""
+
+#. module: commission
+#: model:ir.ui.menu,name:commission.commission_group
+msgid "Group"
+msgstr "Nhóm"
+
+#. module: commission
+#: model:ir.ui.view,arch_db:commission.commission_status_detail_form_view
+#: model:ir.ui.view,arch_db:commission.commission_status_detail_list_view
+msgid "History"
+msgstr ""
+
+#. module: commission
+#: model:ir.model,name:commission.model_commission_status_detail
+msgid "History of the status changes"
+msgstr "Lịch sử"
+
+#. module: commission
+#: model:ir.model,name:commission.model_sale_status_detail
+msgid "History of the status changes of the sale"
+msgstr "Lịch sử của tình trạng thay đổi"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_id
+#: model:ir.model.fields,field_description:commission.field_commission_group_id
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_id
+#: model:ir.model.fields,field_description:commission.field_commission_id
+#: model:ir.model.fields,field_description:commission.field_commission_report_id
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_id
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_id
+#: model:ir.model.fields,field_description:commission.field_commission_status_id
+#: model:ir.model.fields,field_description:commission.field_commission_summary_id
+#: model:ir.model.fields,field_description:commission.field_commission_target_id
+#: model:ir.model.fields,field_description:commission.field_commission_tier_id
+#: model:ir.ui.view,arch_db:commission.view_partner_form
+msgid "ID"
+msgstr "ID ngoài"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_group_scheme_ids
+msgid "Included schemes"
+msgstr "Bao gồm kế hoạch"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission___last_update
+#: model:ir.model.fields,field_description:commission.field_commission_detail___last_update
+#: model:ir.model.fields,field_description:commission.field_commission_group___last_update
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy___last_update
+#: model:ir.model.fields,field_description:commission.field_commission_report___last_update
+#: model:ir.model.fields,field_description:commission.field_commission_scheme___last_update
+#: model:ir.model.fields,field_description:commission.field_commission_status___last_update
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail___last_update
+#: model:ir.model.fields,field_description:commission.field_commission_summary___last_update
+#: model:ir.model.fields,field_description:commission.field_commission_target___last_update
+#: model:ir.model.fields,field_description:commission.field_commission_tier___last_update
+msgid "Last Modified on"
+msgstr "Sửa lần cuối"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_write_uid
+#: model:ir.model.fields,field_description:commission.field_commission_group_write_uid
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_write_uid
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_write_uid
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_write_uid
+#: model:ir.model.fields,field_description:commission.field_commission_status_write_uid
+#: model:ir.model.fields,field_description:commission.field_commission_summary_write_uid
+#: model:ir.model.fields,field_description:commission.field_commission_target_write_uid
+#: model:ir.model.fields,field_description:commission.field_commission_tier_write_uid
+#: model:ir.model.fields,field_description:commission.field_commission_write_uid
+msgid "Last Updated by"
+msgstr "Cập nhật lần cuối bởi"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_write_date
+#: model:ir.model.fields,field_description:commission.field_commission_group_write_date
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_write_date
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_write_date
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_write_date
+#: model:ir.model.fields,field_description:commission.field_commission_status_write_date
+#: model:ir.model.fields,field_description:commission.field_commission_summary_write_date
+#: model:ir.model.fields,field_description:commission.field_commission_target_write_date
+#: model:ir.model.fields,field_description:commission.field_commission_tier_write_date
+#: model:ir.model.fields,field_description:commission.field_commission_write_date
+msgid "Last Updated on"
+msgstr "Cập nhật lần cuối"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_update_date
+msgid "Last update on"
+msgstr "Cập nhật lần cuối"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_parent_left
+msgid "Left Parent"
+msgstr ""
+
+#. module: commission
+#: model:res.groups,name:commission.group_manager
+msgid "Management rights"
+msgstr "Quyền quản lý"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_mobile
+msgid "Mobile number"
+msgstr "Số di động"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_group_name
+#: model:ir.model.fields,field_description:commission.field_commission_target_name
+msgid "Name"
+msgstr "Họ tên"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_name
+msgid "Name of scheme"
+msgstr "Tên kế hoạch"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_name
+msgid "Node"
+msgstr ""
+
+#. module: commission
+#: model:ir.ui.view,arch_db:commission.commission_hierarchy_list_view
+msgid "Nodes"
+msgstr ""
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_notes
+msgid "Notes"
+msgstr ""
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_issue
+msgid "Open issues"
+msgstr "Các vấn đề đang làm"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_parent_id
+msgid "Parent node"
+msgstr ""
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_partner
+msgid "Partner"
+msgstr "Đối tác"
+
+#. module: commission
+#: model:ir.model,name:commission.model_commission_summary
+msgid "Periodic commission summary per sales agent, manager"
+msgstr "Tổng hợp hoa hồng định kì cho sales, quản lý "
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_phone
+msgid "Phone number"
+msgstr "Số điện thoại"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_points
+#: model:ir.model.fields,field_description:commission.field_commission_report_points
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_points
+#: model:ir.model.fields,field_description:commission.field_commission_summary_points
+#: model:ir.ui.view,arch_db:commission.commission_summary_report
+msgid "Points"
+msgstr "Điểm"
+
+#. module: commission
+#: selection:commission.scheme,aggregation:0
+#: model:ir.model.fields,field_description:commission.field_commission_scheme_product
+msgid "Product"
+msgstr "Sản phẩm"
+
+#. module: commission
+#: selection:commission.scheme,aggregation:0
+#: model:ir.model.fields,field_description:commission.field_commission_status_product_category
+msgid "Product category"
+msgstr "Phân loại sản phẩm"
+
+#. module: commission
+#: selection:commission.scheme,aggregation:0
+msgid "Product master"
+msgstr "Sản phẩm chính"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_product
+#: model:ir.model.fields,field_description:commission.field_commission_status_product
+msgid "Product sold"
+msgstr "Sản phẩm đã bán"
+
+#. module: commission
+#: selection:commission.tier,type:0
+msgid "Quantity"
+msgstr "Số lượng "
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_rate
+msgid "Rate"
+msgstr "Tỷ lệ"
+
+#. module: commission
+#: model:res.groups,name:commission.group_user
+msgid "Read access"
+msgstr "Quyền truy cập"
+
+#. module: commission
+#: model:ir.ui.menu,name:commission.commission_reports
+msgid "Reports"
+msgstr "Báo cáo"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_parent_right
+msgid "Right Parent"
+msgstr ""
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_target_salary
+msgid "Salary"
+msgstr "Lương"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_sale_status
+msgid "Sale Status"
+msgstr "Tình trạng bán hàng"
+
+#. module: commission
+#: selection:commission.tier,trigger:0
+msgid "Sales"
+msgstr "NV Sales"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_report_sales_agent
+#: model:ir.model.fields,field_description:commission.field_commission_summary_sales_agent
+msgid "Sales Agent"
+msgstr ""
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_sales_agent
+#: model:ir.model.fields,field_description:commission.field_commission_status_sales_agent
+msgid "Sales agent"
+msgstr ""
+
+#. module: commission
+#: model:ir.ui.view,arch_db:commission.commission_status_form_view
+msgid "Sales status"
+msgstr "Tình trạng bán hàng"
+
+#. module: commission
+#: model:ir.actions.act_window,name:commission.action_target_tree
+#: model:ir.model.fields,field_description:commission.field_hr_employee_sales_target_5610
+#: model:ir.ui.menu,name:commission.sales_target
+#: model:ir.ui.view,arch_db:commission.commission_target_form_view
+msgid "Sales target"
+msgstr "Mục tiêu bán hàng"
+
+#. module: commission
+#: model:ir.model,name:commission.model_commission_target
+msgid "Sales targets for an employee based on points"
+msgstr "Mục tiêu bán hàng cho nhân viên dựa theo điểm"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_hierarchy_team
+msgid "Sales team"
+msgstr "Nhóm sales"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_group_team_ids
+msgid "Sales teams"
+msgstr "Nhóm sales"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_tier_scheme
+#: model:ir.ui.menu,name:commission.commission_scheme
+msgid "Scheme"
+msgstr "Kế hoạch"
+
+#. module: commission
+#: model:ir.ui.menu,name:commission.commission_setting
+msgid "Settings"
+msgstr "Cài đặt"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_target_target_start
+msgid "Start"
+msgstr "Bắt đầu"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_tier_active_from
+#: model:ir.ui.view,arch_db:commission.commission_summary_report
+msgid "Start date"
+msgstr "Ngày bắt đầu"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_report_start_date
+#: model:ir.model.fields,field_description:commission.field_commission_summary_start_date
+msgid "Start period"
+msgstr "Kỳ bắt đầu"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_tier_tier_start
+msgid "Start value"
+msgstr "Giá trị khởi đầu"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_status
+#: model:ir.ui.menu,name:commission.commission_status
+msgid "Status"
+msgstr "Tình trạng "
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail
+msgid "Status detail"
+msgstr "Chi tiết tình trạng"
+
+#. module: commission
+#: model:ir.model,name:commission.model_commission_status
+msgid "Status informaton on commission related sales activity from partner"
+msgstr "Thông tin tình trạng về hoa hồng cho các hoạt động của sales từ đối tác"
+
+#. module: commission
+#: model:ir.model,name:commission.model_sale_status
+msgid "Status informaton on sales received from partner"
+msgstr "Thông tin tình trạng về sales nhận được từ đối tác"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_notes
+msgid "Status notes"
+msgstr "Ghi chú tình trạng "
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_summary
+#: model:ir.ui.menu,name:commission.commission_summary
+msgid "Summary"
+msgstr "Tóm tắt"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_tier_trigger
+msgid "Triggered by"
+msgstr "Kích hoạt bởi"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_detail_type
+msgid "Type"
+msgstr "Mẫu"
+
+#. module: commission
+#: model:ir.model.fields,field_description:commission.field_commission_status_detail_changed_by
+msgid "Updated by"
+msgstr "Tình trạng được cập nhật bởi"
+
+#. module: commission
+#: model:ir.module.category,description:commission.commission_management
+msgid "User access level for commission module"
+msgstr "Quyền truy cập cho"
+
+#. module: commission
+#: selection:commission.tier,type:0
+msgid "Value"
+msgstr "Giá trị"
+
+#. module: commission
+#: model:ir.model,name:commission.model_commission
+msgid "calculate commission"
+msgstr "Tính hoa hồng"
+
+#. module: commission
+#: model:ir.model,name:commission.model_hr_employee
+msgid "hr_employee"
+msgstr "Nhân sự"
+
+#. module: commission
+#: model:ir.model,name:commission.model_commission_hierarchy
+msgid "sales person hierarchy"
+msgstr "Phân loaị sale"
