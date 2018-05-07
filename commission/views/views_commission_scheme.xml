@@ -6,9 +6,6 @@
     <field name="model">commission.scheme</field>
     <field name="arch" type="xml">
       <form string="Commission scheme">
-        <header>
-          <button string="Calculate" type="object" name="calculate"/>
-        </header>
         <group>
           <field name="name"/>
           <field name="active"/>
@@ -130,7 +127,7 @@
     <field name="arch" type="xml">
       <tree string="Commission list">
         <field name="display_name" string="Nodes" />
-        <field name="team" />
+        <field name="team_ids" />
       </tree>
     </field>
   </record>
@@ -143,7 +140,8 @@
         <group string="Commission node">
           <field name="name" />
           <field name="parent_id" />
-          <field name="team" />
+          <field name= "manager" />
+          <field name="team_ids" />
         </group>
         <group>
           <field name="child_id" readonly="1" />    
@@ -169,7 +167,7 @@
     <field name="name">commission.summary.list</field>
     <field name="model">commission.summary</field>
     <field name="arch" type="xml">
-      <tree>
+      <tree create="false" edit="false">
         <field name="sales_agent" readonly="1" />
         <field name="start_date" readonly="1"/>
         <field name="end_date" readonly="1"/>
@@ -183,10 +181,7 @@
     <field name="name">commission.summary.form</field>
     <field name="model">commission.summary</field>
     <field name="arch" type="xml">
-      <form string="Commission summary">
-        <header>
-          <button string="Calculate" type="object" name="calculate"/>
-        </header>
+      <form string="Commission summary" create="false" edit="false">
         <group>
           <field name="sales_agent" readonly="1" />
           <field name="start_date" readonly="1" />
@@ -202,7 +197,7 @@
     <field name="name">commission.status.form</field>
     <field name="model">commission.status</field>
     <field name="arch" type="xml">
-      <form string="Sales status">
+      <form string="Sales status" create="false" edit="false">
         <group>
           <field name="identifier" string="External ID" readonly="1" />
           <field name="partner" readonly="1" />
@@ -220,7 +215,7 @@
     <field name="name">commission.status.list</field>
     <field name="model">commission.status</field>
     <field name="arch" type="xml">
-      <tree string="Commission status list">
+      <tree string="Commission status list" create="false" edit="false">
         <field name="partner" readonly="1" />
         <field name="sales_agent" readonly="1" />
         <field name="identifier" string="External ID" readonly="1" />
@@ -250,12 +245,24 @@
     <field name="name">commission.status_detail.list</field>
     <field name="model">commission.status.detail</field>
     <field name="arch" type="xml">
-      <tree string="History">
+      <tree string="History" create="false" edit="false">
         <field name="status_date" readonly="1" />
         <field name="status" readonly="1" />
         <field name="changed_by" readonly="1" />
         <field name="notes" readonly="1" />
       </tree>
+    </field>
+  </record>
+
+  <record id="commission_calc_view" model="ir.ui.view">
+    <field name="name">commission.calc.form</field>
+    <field name="model">commission</field>
+    <field name="arch" type="xml">
+      <form string="Commission calculation" create="false" edit="false">
+        <header>
+          <button string="Calculate" type="object" name="calculate"/>
+        </header>
+      </form>
     </field>
   </record>
 </odoo>

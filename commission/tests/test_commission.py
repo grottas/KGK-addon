@@ -7,6 +7,7 @@ import datetime
 from .commissiondata import CommissionData as cd
 from .commissiondata import TestCase1 as t1
 from .commissiondata import TestCase2 as t2
+from .commissiondata import TestCase3 as t3
 import time
 
 class TestCommission(TransactionCase):
@@ -15,6 +16,7 @@ class TestCommission(TransactionCase):
   arr_users = []
   arr_leads = []
   arr_teams = []
+  prefix = 'UT_'
 
   # set basic data
   def setUp(self, *args, **kwargs):
@@ -46,7 +48,7 @@ class TestCommission(TransactionCase):
     #self.populate_team()
   
   def test_calculate_commission(self):
-    self.calculate_commission(t2())
+    self.calculate_commission(t3())
     #self.__create_sales(t1().salelines)
     #self.env['commission'].calculate()
     
@@ -154,30 +156,34 @@ class TestCommission(TransactionCase):
     start_count = hierarchy.search_count([])
 
     # create all nodes first
-    for team in arr_teams:
+    for node in testcase.nodes:
       self.node1 = hierarchy.create({
-        'name' : team.name,
-        'team' : team.id,
+        'name' : self.prefix + node.get('name'),
       })
+      #assign manager
+      temp = self.env['res.users'].search([('login', '=', self.prefix + node.get('manager'))])
+      if len(temp) > 0:
+        self.node1.manager = temp[0]
+      #assign teams
+      for team in node.get('teams'):
+        tmp_team = self.env['crm.team'].search([('name', '=', self.prefix + team)])
+        if len(tmp_team) > 0:
+          self.node1.team_ids += tmp_team[0]
 
     # add parent node
-    for node in testcase.arr_hierarchy:
-      if node[1] == '':
+    for node in testcase.nodes: 
+      if node.get('parent') == '':
         continue
       
-      parent = hierarchy.search([('name', '=', node[1])])
-      self.assertEqual(len(parent), 1, 'parent length for ' + str(node[1]))
-      child = hierarchy.search([('name', '=', node[0])])
-      self.assertEqual(len(child), 1, 'child length')
+      parent = hierarchy.search([('name', '=', self.prefix + node.get('parent'))])
+      self.assertEqual(len(parent), 1, 'parent length for ' + node.get('name'))
+      child = hierarchy.search([('name', '=', self.prefix + node.get('name'))])
+      self.assertEqual(len(child), 1, 'child length ' + node.get('name') )
       child[0].parent_id = parent[0]      
       
-    # check that the last entries parent matches
-    node = testcase.arr_hierarchy[-1]
-    child = hierarchy.search([('name', '=', node[0])])
-    parent = child.parent_id
-    self.assertEqual(parent.name, node[1], 'parent match')
+  
     count = hierarchy.search_count([])
-    self.assertEqual(count - start_count, len(arr_teams), 'hierarchy count')
+    self.assertEqual(count - start_count, len(testcase.nodes), 'wrong hierarchy count')
 
 
   #create new useres
@@ -198,7 +204,7 @@ class TestCommission(TransactionCase):
           'groups_id': [(6, 0, [self.ref('sales_team.group_sale_manager')])]
         })
         self.arr_users.append(self.user1)
-        
+  
       count = len(users.search([('email', '=', 'agent@kgk.vn')]))
       self.assertEqual(count, 20, 'create salesman')
       self.assertEqual(len(self.arr_users), 20, 'user count')
@@ -218,14 +224,14 @@ class TestCommission(TransactionCase):
       self.assertEqual(len(self.arr_leads), count, 'lead count')
       return
 
-    #create users base on the names provided
+    #create users based on the names provided
     before_count = users.search_count([])
     for user in arr_names:
       name = str(user)
       self.user1 = users.create({
           'company_id': self.env.ref("base.main_company").id,
           'name': name,
-          'login': name,
+          'login': self.prefix + name,
           'email': 'agent_test@kgk.vn',
           'groups_id': [(6, 0, [self.ref('sales_team.group_sale_manager')])]
         })
@@ -238,7 +244,7 @@ class TestCommission(TransactionCase):
 
 
   # create salesteams
-  def populate_team(self):
+  def populate_team(self, arr_tems):
     team = self.env['crm.team']
 
     # default run
@@ -258,57 +264,37 @@ class TestCommission(TransactionCase):
       self.assertEqual(count, 1, 'create team')
       return
 
-    # create teams for leads
-    for lead in self.arr_leads:
+    # create teams for testcase
+    for team in arr_teams:
       self.team1 = team.create({
-        'name': lead.name,
+        'name': self.prefix + team.name,
         'active' : True,
-        'user_id' : lead.id
+        'use_opportunities' : False,
+        'use_quotations' : False,
       })
+      #assign members
+      for member in team.members:
+        temp = self.env['res.users'].search([('login', '=', self.prefix + member)])
+        if len(temp) > 0:
+          self.team1.member_ids += temp[0].id 
+
       self.arr_teams.append(self.team1)
     count = len(team.search([('active', '=', True)]))
-    self.assertEqual(count, len(self.arr_leads), 'count for lead teams')
-
-    # add users to the leads teams
-    x = 0
-    for agent in self.arr_users:
-      if x < 5:
-        self.arr_teams[-1].member_ids += agent
-        x += 1
-      else:
-        self.arr_teams[len(self.arr_teams) - 2].member_ids += agent
-
-    name = self.arr_teams[-1].name
-    lead_team = team.search([('name', '=', name)])
-    members = len(lead_team.member_ids)
-    self.assertEqual(members, 5, 'lead 2 member team count')
+    self.assertEqual(count, len(self.arr_teams), 'wrong count of teams')
+   
 
 
   # commission calculation
   def calculate_commission(self, testcase):
-    #self.populate_user()
-    #self.populate_scheme(t1.schemes)
-    #self.populate_team(t1.arr_hierarchy)
-    #self.populate_hierarchy(t1.arr_hierarchy)
-    # get user_ids for agents
-    #arr_agents = []
-    #for user in self.arr_users:
-    #  arr_agents.append(user.id)
-    #self.create_sales(arr_agents)
-
     self.__setup_config(testcase)
     self.execute_calc(testcase.results)
 
+  # setup configuration based on testcase
   def __setup_config(self, testcase):
-    arr_agents = self.populate_user(testcase.agents)
-    manager_names = []
-    for name in testcase.arr_hierarchy:
-      manager_names.append(name[0])
-    arr_managers = self.populate_user(manager_names)
+    arr_agents = self.populate_user(testcase.users)
     arr_groups = self.__setup_scheme(testcase)
-    arr_teams = self.__setup_teams(arr_managers)
+    arr_teams = self.__setup_teams(testcase.teams)
     self.__asign_teams(arr_groups, arr_teams, testcase)
-    self.__asign_teammember(arr_teams, testcase.team_members)
     self.populate_hierarchy(arr_teams, testcase)
     self.__create_sales(testcase.salelines)
 
@@ -361,10 +347,9 @@ class TestCommission(TransactionCase):
   def __setup_scheme(self, testcase):
     arr_groups = []
     groups = testcase.groups
-    dict_schemes = dict()
+    dict_schemes = testcase.dict_schemes
     dict_tiers = testcase.dict_tiers
-    for scheme in testcase.schemes:
-      dict_schemes.update({scheme['name'] : scheme})
+    
 
     o_schemes = self.env['commission.scheme']
     o_groups = self.env['commission.group']
@@ -427,26 +412,10 @@ class TestCommission(TransactionCase):
 
     print(dict_results)
 
-    groups = self.env['commission.group'].search([('active', '=', True)])
-    for group in groups:
-      print('group %s - schemes %s - teams %s' % (group.name, [x.name for x in group.scheme_ids], [y.name for y in group.team_ids]))
-
-    teams = self.env['crm.team'].search([('active', '=', True)])
-    for team in teams:
-      print('team %s - manager %s - members %s - manager %s' % (team.name, team.user_id.name, [x.login for x in team.member_ids], team.user_id.name))
-
-    schemes = self.env['commission.scheme'].search([('active', '=', True)])
-    for scheme in schemes:
-      print('scheme %s - product %s - tiers %s' % (scheme.name, scheme.product.id, scheme.tier_ids))
-
-    nodes = self.env['commission.hierarchy'].search([])
-    for node in nodes:
-      print('node %s' %node.name)
-
     for agent in list(dict_results.keys()):
       agent_id = 0
       if type(agent) == str:
-        temp = self.env['res.users'].search([('login', '=', agent)])
+        temp = self.env['res.users'].search([('login', '=', self.prefix + agent)])
         if len(temp) == 0:
           print('agent not found %s' % agent)
           continue
@@ -454,37 +423,51 @@ class TestCommission(TransactionCase):
       else:
         agent_id = agent
       result = o_summary.search([('sales_agent', '=', agent_id)], order='id desc')
+      summary = []
+      amount = 0
       if(len(result) == 0):
-        self.assertEqual(0, 1, 'no commission for agent ' + str(agent))
-        continue
-      summary = result[0]
-      print('number of summaries %d' % len(summary))
-      amount = summary.amount
+        amount = 0
+      else:
+        summary = result[0]
+        amount = summary.amount
+
+      print('number of summaries %d' % len(summary))      
       expected = dict_results.get(agent)
       print('expected amount %d  actual %d for agent %s' % (expected, amount, agent))
+
+      if expected != amount:
+        self.__dump_agent_info(agent_id)
 
       self.assertEqual(amount, expected, 'wrong amount for: ' +str(agent))
 
 
-  # create teams for list of provided managers (type: res.users)
-  def __setup_teams(self, arr_managers):
-    arr_teams = []
+  # create teams for list of provided 
+  def __setup_teams(self, arr_teams):
+    arr_result = []
     o_team = self.env['crm.team']
 
     team_count = o_team.search_count([])
 
-    for manager in arr_managers:
-      _team1 = o_team.create({
-        'name' : manager.login,
+    # create teams for testcase
+    for team in arr_teams:
+      self.team1 = o_team.create({
+        'name': self.prefix + team.get('name'),
         'active' : True,
-        'user_id' : manager.id
+        'use_opportunities' : False,
+        'use_quotations' : False,
       })
-      arr_teams.append(_team1)
+      #assign members
+      for member in team.get('members'):
+        temp = self.env['res.users'].search([('login', '=', self.prefix + member)])
+        if len(temp) > 0:
+          self.team1.member_ids += temp[0] 
 
-    count = o_team.search_count([])
-    self.assertEqual(len(arr_managers), count - team_count, 'setup_teams - wrong team count')
+      arr_result.append(self.team1)
 
-    return arr_teams
+    count_after = o_team.search_count([])
+    self.assertEqual(count_after - team_count, len(arr_teams), 'wrong team count')
+
+    return arr_result
 
 
   # iterate through all teams and lookup team members in the dictionary
@@ -500,6 +483,7 @@ class TestCommission(TransactionCase):
   #create sales lines, pick default company and first customer
   def __create_sales(self, salelines):
     o_sales = self.env['sale.order']
+    o_user = self.env['res.users']
     customer = self.env['res.partner'].search([('customer', '=', True)])[0]
     o_product = self.env['product.product']
     line_count = self.env['sale.order.line'].search_count([])
@@ -507,6 +491,10 @@ class TestCommission(TransactionCase):
 
     for saleline in salelines:
       product = o_product.browse([saleline.get('product_id')])[0]
+      users = o_user.search([('login', '=', self.prefix + saleline.get('salesman_id'))])
+      self.assertEqual(len(users), 1, 'sales line user not found')
+      user_id = users[0].id
+
       _so1 = o_sales.create({
         'partner_id': customer.id,
         'partner_invoice_id': customer.id,
@@ -515,18 +503,21 @@ class TestCommission(TransactionCase):
           'product_uom_qty': saleline.get('qty'), 
           'product_uom': product.uom_id.id,
           'price_unit': product.list_price, 
-          'salesman_id' : saleline.get('salesman_id'),
+          'salesman_id' : user_id,
           'price_total' : saleline.get('price_total')
         })]
       })
 
-      _so1.order_line[0].salesman_id = saleline.get('salesman_id')
-      _so1.order_line[0].price_total = saleline.get('price_total')
+      _so1.order_line.write({'salesman_id' : user_id})
+      _so1.order_line.write({'price_total' : saleline.get('price_total')})
 
-      sol = self.env['sale.order.line'].search([('product_id', '=', product.id)], order='id desc')[0]
-      self.assertEqual(saleline['qty'], sol.product_uom_qty, 'wrong quantity')
 
-      print('line product: %d amount: %d qty: %d' % (sol.product_id.id, sol.price_total, sol.product_uom_qty))
+      sol = self.env['sale.order.line'].search([('product_id', '=', product.id), ('salesman_id', '=', user_id)], order='id desc')
+      
+      self.assertEqual(len(sol), 1, 'failed to create sales lines for ' + product.name)
+      self.assertEqual(saleline['qty'], sol[0].product_uom_qty, 'wrong quantity')
+
+      print('line product: %d amount: %d qty: %d agent %d' % (sol.product_id.id, sol.price_total, sol.product_uom_qty, sol.salesman_id))
 
     count = self.env['sale.order.line'].search_count([])
     self.assertEqual(len(salelines), count - line_count, 'create_sales - wrong line count')
@@ -534,11 +525,12 @@ class TestCommission(TransactionCase):
     self.assertEqual(len(salelines), count - order_count, 'create_sales - wrong order count')
 
 
-  # assign teams to the matching group
+  # assign teams to the group
   def __asign_teams(self, arr_groups, arr_teams, testcase):
-    groups = testcase.groups
+    tc_groups = testcase.groups
     dict_teams = dict()
     dict_groups = dict()
+    o_group = self.env['commission.group']
 
     for team in arr_teams:
       dict_teams.update({team.name : team})
@@ -546,26 +538,82 @@ class TestCommission(TransactionCase):
     for group in arr_groups:
       dict_groups.update({group.name : group})
 
-    for group_name in groups:
+    for group_name in tc_groups:
       team_names = group_name['teams']
       if team_names is None:
         continue
       for name in team_names:
-        team = dict_teams.get(name)
+        team = dict_teams.get(self.prefix + name)
         if team is None:
           continue
         group = dict_groups.get(group_name['name'])
         group.team_ids += team
 
-    _group = self.env['commission.group'].search([('name', '=', arr_groups[0]['name']), ('active', '=', True)])
-    count = len(_group[0].team_ids)
-    self.assertEqual(count, 2, 'wrong team count for: ' + arr_groups[0]['name'])
+      _groups = o_group.search([('name', '=', group_name.get('name')), ('active', '=', True)])
+      expect = len(group_name.get('teams'))
+      count = len(_groups[0].team_ids)
+      self.assertEqual(count, expect, 'wrong team count for ' + str(group_name.get('name')) )
 
+
+  def __dump_agent_info(self, agent_id):
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    print('agent info for - %d' % agent_id)
+    node = None
+    isManager = False
+
+    #team
+    temp = self.env['res.users'].browse(agent_id)
+    team = temp[0].sale_team_id
+    print('agent name %s' % temp[0].login)
+    print('member of team %s - %d'% (team.name, team.id))
+
+    #see if manager
+    temp = self.env['commission.hierarchy'].search([('manager', '=', agent_id)])
+    if len(temp) > 0:
+      node = temp[0]
+      isManager = True
+      print('manages this node: %s' % node.name)
+
+    #find node team belongs to
+    temp = self.env['commission.hierarchy'].search([('team_ids', '=', team.id)])
+    if len(temp) > 0:
+      node = temp[0]
+      print('her team belongs to the following node: %s' % node.name)
+
+    #reports
+    arr_reports = []
+    if node and isManager:
+      nodes = self.env['commission.hierarchy'].child_nodes_deep(node.id)
+      for _node in nodes:
+        print('child nodes - %s' % _node.name)
+        for _team in _node.team_ids:
+          print('team - %s' % _team.name)
+          arr_reports.extend(_team.member_ids)
+      for _team in node.team_ids:
+        print('team - %s' % _team.name)
+        arr_reports.extend(_team.member_ids)
+
+    print('reports - number %d - list %s' %(len(arr_reports), [user.login for user in arr_reports]) )
+
+    #group
+    temp = self.env['commission.group'].search([('team_ids', '=', team.id)])
+    for group in temp:
+      print('member of group: %s' % group.name)
+      for scheme in group.scheme_ids:
+        print('scheme applies: %s - product %s' % (scheme.name, scheme.product.name))
+        for tier in scheme.tier_ids:
+          print('tier start %d - amount %d - percent %d' % (tier.tier_start, tier.amount, tier.percent))
     
+    #saleslines
+    if isManager:
+      ids = [user.id for user in arr_reports]
+    else:
+      ids = [agent_id]
+      
+    temp = self.env['sale.order.line'].search([('salesman_id', 'in', ids)])
+    for line in temp:
+      print('product %s - qty %d - amount %d' %(line.name, line.product_uom_qty, line.price_total))
 
 
-    
-
-    
-    
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++')  
     

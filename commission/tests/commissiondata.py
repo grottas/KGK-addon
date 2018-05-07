@@ -98,211 +98,350 @@ class CommissionData():
     ]
 
 class TestCase1():
-    agent_id1 = 689
-    agent_id2 = 668
     prod_lp = 42
     prod_lm = 43
     prod_ins = 44
-    arr_hierarchy = [
-            ['Manager', ''],
-            ['Super Central', 'Manager'],
-            ['Super South', 'Manager'],
-            ['Lead Central 1', 'Super Central'],
-            ['Lead South 1', 'Super South']
-        ]
     
 
     def __init__(self):
-        self.agents = [self.agent_id1, self.agent_id2]
+        self.dict_tiers = dict()
+        self.dict_schemes = dict()
 
-        group_agent = {
-            'name' : 'group_agent',
-            'schemes' : ['scheme_loan', 'scheme_ins'],
-            'teams' : ['Lead Central 1', 'Lead South 1']
+        self.users = [
+            'Manager',
+            'Super north',
+            'Super central',
+            'Lead central 1',
+            'Lead central 2',
+            'DSA1',
+            'DSA2'
+        ]
+
+        team1 = {
+            'name' : 'DS1',
+            'members' : ['DSA1']
         }
-        group_super = {
-            'name' : 'group_super',
-            'schemes' : ['scheme_5'],
-            'teams' : ['Super Central', 'Super South']
-        }
-        group_manager = {
-            'name' : 'group_manager',
-            'schemes' : ['scheme_3'],
-            'teams' : ['Manager']
+        team2 = {
+            'name' : 'DS2',
+            'members' : ['DSA2']
         }
 
-        self.groups = [group_agent, group_super, group_manager]
+        self.teams = [team1, team2]
 
-        scheme_loan = {
-            'name' : 'scheme_loan',
+        nodeHQ = {
+            'name' : 'HQ',
+            'parent' : '',
+            'manager' : '',
+            'teams' : ''
+        }
+        nodeSM = {
+            'name' : 'SM',
+            'parent' : 'HQ',
+            'manager' : 'Manager',
+            'teams' : ''
+        }
+        nodeSN = {
+            'name' : 'Super north',
+            'parent' : 'SM',
+            'manager' : 'Super north',
+            'teams' : ''
+        }
+        nodeSC = {
+            'name' : 'Super central',
+            'parent' : 'SM',
+            'manager' : 'Super central',
+            'teams' : ''
+        }
+        nodeLC1 = {
+            'name' : 'Lead central 1',
+            'parent' : 'Super central',
+            'manager' : 'Lead central 1',
+            'teams' : ['DS1', 'DS2']
+        }
+        nodeLC2 = {
+            'name' : 'Lead central 2',
+            'parent' : 'Super central',
+            'manager' : 'Lead central 2',
+            'teams' : ''
+        }
+        self.nodes = [nodeHQ, nodeSM, nodeSN, nodeSC, nodeLC1, nodeLC2]
+
+        tier1 = {
+            'type' : 'q',
+            'tier_start' : 1,
+            'tier_end' : 3,
+            'amount' : 700000,
+            'percent' : 0,
+            'trigger' : 's'    
+        }
+        tier2 = {
+            'type' : 'q',
+            'tier_start' : 4,
+            'tier_end' : 5,
+            'amount' : 800000,
+            'percent' : 0,
+            'trigger' : 's'    
+        }
+        tier3 = {
+            'type' : 'q',
+            'tier_start' : 6,
+            'tier_end' : 0,
+            'amount' : 900000,
+            'percent' : 0,
+            'trigger' : 's'    
+        }
+        self.dict_tiers.update({'tier1' : tier1})
+        self.dict_tiers.update({'tier2' : tier2})
+        self.dict_tiers.update({'tier3' : tier3})
+        scheme_lp = {
+            'name' : 'loan insurance',
             'points' : 5,
             'product' : self.prod_lp,
             'aggregation' : 'c',
             'tiers' : ['tier1', 'tier2', 'tier3']
         }
 
-        scheme_ins = {
-            'name' : 'scheme_ins',
-            'points' : 2,
-            'product' : self.prod_ins,
+        tier21 = {
+            'type' : 'q',
+            'tier_start' : 1,
+            'tier_end' : 3,
+            'amount' : 500000,
+            'percent' : 0,
+            'trigger' : 's'    
+        }
+        tier22 = {
+            'type' : 'q',
+            'tier_start' : 4,
+            'tier_end' : 5,
+            'amount' : 600000,
+            'percent' : 0,
+            'trigger' : 's'    
+        }
+        tier23 = {
+            'type' : 'q',
+            'tier_start' : 6,
+            'tier_end' : 0,
+            'amount' : 700000,
+            'percent' : 0,
+            'trigger' : 's'    
+        }
+        self.dict_tiers.update({'tier21' : tier21})
+        self.dict_tiers.update({'tier22' : tier22})
+        self.dict_tiers.update({'tier23' : tier23})
+        scheme_lm = {
+            'name' : 'loan no insurance',
+            'points' : 5,
+            'product' : self.prod_lm,
             'aggregation' : 'c',
-            'tiers' : ['tier4']
+            'tiers' : ['tier21', 'tier22', 'tier23']
         }
 
-        scheme_5 = {
-            'name' : 'scheme_5',
+        self.dict_schemes.update({'scheme_lp' : scheme_lp}) 
+        self.dict_schemes.update({'scheme_lm' : scheme_lm})
+
+        group_ds1 = {
+            'name': 'group_ds1',
+            'schemes': ['scheme_lp', 'scheme_lm'],
+            'teams': ['DS1'],
+        }
+
+        self.groups = [group_ds1]
+
+        saleline1 = {
+            'product_id' : self.prod_lp,
+            'qty' : 6,
+            'price_total' : 0,
+            'salesman_id' : 'DSA1'
+        }
+        saleline2 = {
+            'product_id' : self.prod_lm,
+            'qty' : 1,
+            'price_total' : 0,
+            'salesman_id' : 'DSA1'
+        }
+
+        self.salelines = [saleline2, saleline1]
+
+        self.results = {
+            'DSA1' : 6100000,
+        }
+        
+
+class TestCase2(TestCase1):
+    def __init__(self):
+        super().__init__()
+
+        tier10 = {
+            'type' : 'q',
+            'tier_start' : 1,
+            'tier_end' : 0,
+            'amount' : 500000,
+            'percent' : 0,
+            'trigger' : 's'    
+        }
+
+        self.dict_tiers.update({'tier10' : tier10})
+
+        scheme_lead = {
+            'name' : 'leads',
             'points' : 5,
             'product' : self.prod_lp,
             'aggregation' : 'c',
             'tiers' : ['tier10']
         }
 
-        scheme_3 = {
-            'name' : 'scheme_3',
-            'points' : 5,
-            'product' : self.prod_lp,
-            'aggregation' : 'c',
-            'tiers' : ['tier11']
-        }
-
-        self.schemes = [scheme_loan, scheme_ins, scheme_3, scheme_5]
-
-        tier1 = {
-            'type' : 'q',
-            'tier_start' : 0,
-            'tier_end' : 3,
-            'amount' : 200000,
-            'percent' : 0,
-            'trigger' : 's'
-        }
-
-        tier2 = {
-            'type' : 'q',
-            'tier_start' : 4,
-            'tier_end' : 6,
-            'amount' : 300000,
-            'percent' : 0,
-            'trigger' : 's'
-        }
-        tier3 = {
-            'type' : 'q',
-            'tier_start' : 7,
-            'tier_end' : 0,
-            'amount' : 400000,
-            'percent' : 0,
-            'trigger' : 's'
-        }
-        tier4 = {
-            'type' : 'v',
-            'tier_start' : 0,
-            'tier_end' : 0,
-            'amount' : 0,
-            'percent' : 5,
-            'trigger' : 's'
-        }
-        tier10 = {
-            'type' : 'v',
-            'tier_start' : 0,
-            'tier_end' : 3,
-            'amount' : 0,
-            'percent' : 5,
-            'trigger' : 'c'
-        }
-
-        tier11 = {
-            'type' : 'v',
-            'tier_start' : 0,
-            'tier_end' : 3,
-            'amount' : 0,
-            'percent' : 3,
-            'trigger' : 'c'
-        }
-
-        self.dict_tiers = {
-            'tier1' : tier1,
-            'tier2' : tier2,
-            'tier3' : tier3,
-            'tier4' : tier4,
-            'tier10': tier10,
-            'tier11' : tier11
-        }
-
-
-        # leads name is key for agents assigne to team
-        self.team_members = {
-            'Lead Central 1' : self.agents
-        }
-
-        saleline1 = {
-            'product_id' : self.prod_lp,
-            'qty' : 5,
-            'price_total' : 0,
-            'salesman_id' : self.agent_id1
-        }
-        saleline2 = {
-            'product_id' : self.prod_ins,
-            'qty' : 1,
-            'price_total' : 4000000,
-            'salesman_id' : self.agent_id2
-        }
-
-        self.salelines = [saleline2, saleline1]
-
-        self.results = {
-            self.agent_id1 : 1500000,
-            self.agent_id2 : 200000
-        }
-
-class TestCase2(TestCase1):
-    def __init__(self):
-        super().__init__()
+        self.dict_schemes.update({'scheme_lead' : scheme_lead}) 
 
         group_lead = {
             'name': 'group_lead',
-            'schemes': ['scheme_20'],
-            'teams': ['Lead Central 1'],
+            'schemes': ['scheme_lead'],
+            'teams': ['lead'],
         }
 
-        #reconfigure manager groups
-        for group in self.groups:
-            if group.get('name') == 'group_super':
-                group.update({'schemes' : ['scheme_20']})
-            if group.get('name') == 'group_manager':
-                group.update({'schemes' : ['scheme_20']})
-            
         self.groups.append(group_lead)
 
-        scheme_20 = {
-            'name' : 'scheme_20',
+        team_lead = {
+            'name' : 'lead',
+            'members' : ['Lead central 1', 'Lead central 2']
+        }
+
+        self.teams.append(team_lead)
+       
+        self.results.update({'Lead central 1' : 3000000})
+
+
+class TestCase3(TestCase2):
+    def __init__(self):
+        super().__init__()
+        
+        self.users.append('DSA11')
+        self.users.append('DSA12')
+        self.users.append('Super south')
+        self.users.append('Lead south 1')
+
+        # add lead south 1 to team 'lead'
+        for team in self.teams:
+            if team.get('name') == 'lead':
+                team.get('members').append('Lead south 1')
+
+        team3 = {
+            'name' : 'DS10',
+            'members' : ['DSA11', 'DSA12']
+        }
+
+        self.teams.append(team3)
+
+        nodeLS1 = {
+            'name' : 'Lead south 1',
+            'parent' : 'Super south',
+            'manager' : 'Lead south 1',
+            'teams' : ['DS10']
+        }
+
+        nodeSS = {
+            'name' : 'Super south',
+            'parent' : 'SM',
+            'manager' : 'Super south',
+            'teams' : ''
+        }
+        
+
+        self.nodes.append(nodeLS1)
+        self.nodes.append(nodeSS)
+
+        #update DS group to add new DS10 team
+        for group in self.groups:
+            if group.get('name', '') == 'group_ds1':
+                group['teams'].append(team3.get('name', ''))
+        
+        #commission scheme for supervisor and manager
+        tier30 = {
+            'type' : 'v',
+            'tier_start' : 1,
+            'tier_end' : 0,
+            'amount' : 0,
+            'percent' : 5,
+            'trigger' : 'c'    
+        }
+
+        self.dict_tiers.update({'tier30' : tier30})
+
+        scheme_manager = {
+            'name' : 'managers',
             'points' : 5,
             'product' : self.prod_lp,
             'aggregation' : 'c',
-            'tiers' : ['tier21', 'tier22']
+            'tiers' : ['tier30']
         }
 
-        self.schemes.append(scheme_20)
+        self.dict_schemes.update({'scheme_manager' : scheme_manager}) 
 
-        tier21 = {
-            'type' : 'v',
-            'tier_start' : 0,
-            'tier_end' : 2000000,
-            'amount' : 0,
-            'percent' : 5,
-            'trigger' : 'c'
+        group_manager = {
+            'name': 'group_manager',
+            'schemes': ['scheme_manager'],
+            'teams': ['manager'],
         }
 
-        tier22 = {
+        self.groups.append(group_manager)
+
+        team_manager = {
+            'name' : 'manager',
+            'members' : ['Super south', 'Manager', 'Super north', 'Super central',]
+        }
+
+        self.teams.append(team_manager)
+
+        tier35 = {
             'type' : 'v',
-            'tier_start' : 2000001,
+            'tier_start' : 100000,
             'tier_end' : 0,
             'amount' : 0,
-            'percent' : 4,
-            'trigger' : 'c'
+            'percent' : 2,
+            'trigger' : 's'    
         }
-        
-        self.dict_tiers.update({'tier21' : tier21})
-        self.dict_tiers.update({'tier22' : tier22})
 
-        self.results.update({'Manager' : 75000})
-        self.results.update({'Lead Central 1' : 75000})
-        
+        self.dict_tiers.update({'tier35' : tier35})
+
+        scheme_ins = {
+            'name' : 'insurance',
+            'points' : 2,
+            'product' : self.prod_ins,
+            'aggregation' : 'c',
+            'tiers' : ['tier35']
+        }
+
+        self.dict_schemes.update({'scheme_insurance' : scheme_ins})
+
+        group_ins = {
+            'name': 'group_insurance',
+            'schemes': ['scheme_insurance'],
+            'teams': ['DS10'],
+        }
+
+        self.groups.append(group_ins)
+
+        saleline30 = {
+            'product_id' : self.prod_lp,
+            'qty' : 1,
+            'price_total' : 0,
+            'salesman_id' : 'DSA11'
+        }
+
+        saleline31 = {
+            'product_id' : self.prod_ins,
+            'qty' : 0,
+            'price_total' : 10000000,
+            'salesman_id' : 'DSA12'
+        }
+
+        self.salelines.append(saleline30)
+        self.salelines.append(saleline31)
+
+        self.results.update({'DSA11' : 700000})
+        self.results.update({'Super central' : 270000})
+        self.results.update({'Super north' : 0})
+        self.results.update({'Super south' : 35000})
+        self.results.update({'Lead south 1' : 500000})
+        self.results.update({'Manager' : 305000})
+        self.results.update({'DSA12' : 20000})
+        self.results.update({'DSA2' : 0})

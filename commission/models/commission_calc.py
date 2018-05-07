@@ -58,16 +58,13 @@ class CommissionCalc(models.Model):
         total_points = 0
 
         team = []
-        if not is_manager:
-            #if not manager get the users team id
-            temp = self.env['res.users'].search([('id', '=', agent_id)])[0].sale_team_id.id
-            team = [temp]
-        else:
-            # if manager get all teams for which the user is the manager
-            temp = self.env['crm.team'].search([('user_id', '=', agent_id)])
-            for tmp in temp:
-                team.append(tmp.id)
+       
+        #get the users team id
+        temp = self.env['res.users'].search([('id', '=', agent_id)])[0].sale_team_id.id
+        team = [temp]
 
+        print('teams %s' % team)
+        
         groups = self.env['commission.group'].search([('team_ids', 'in', team)])
         for group in groups:
             schemes = group.scheme_ids
@@ -89,11 +86,13 @@ class CommissionCalc(models.Model):
             print('commission for %s' % ( dict_schemes.get(scheme_id)))
             
             commission_detail = self.__calc_agent_scheme(start_time, agents, scheme_id)
+
+            print(commission_detail)
             
             for temp in commission_detail:
                 arr_details.append((0, 0, temp))
-                total_amount = temp.get('amount', 0)
-                total_points = temp.get('points', 0)
+                total_amount += temp.get('amount', 0)
+                total_points += temp.get('points', 0)
                 temp.update({'sales_agent' : agent_id})
 
         commission_summary = dict()
@@ -135,19 +134,20 @@ class CommissionCalc(models.Model):
                 tier_end = sys.maxsize
 
             trigger_qty = dict_triggers.get('trigger_qty')
+            print('trigger qty %d tier_start %d tier_end %d' %(trigger_qty, tier.tier_start, tier_end))
             trigger_amount = dict_triggers.get('trigger_amount')
             if tier.trigger == 's': # triggered by sales
                 if tier.type == 'q': #sales quantity
                     if (trigger_qty >= tier.tier_start) and (trigger_qty <= tier_end) and (start_date >= start_time.date()) and (end_date <= today):
                         rate = tier.amount
-                        print('quantity rate %d' %rate)
                         eligible_qty = dict_triggers.get('eligible_qty', 0)
+                        print('quantity rate %d - eligible %d ' % (rate, eligible_qty))
                         amount += eligible_qty * tier.amount
                 elif tier.type == 'v': #sales volume     
                     if (trigger_amount >= tier.tier_start) and (trigger_amount <= tier_end) and (start_date >= start_time.date()) and (end_date <= today):
                         rate = tier.percent
-                        print('percent rate %d' %rate)
                         eligible_amount = dict_triggers.get('eligible_amount', 0)
+                        print('percent rate %d - eligible %d ' % (rate, eligible_amount))
                         amount += eligible_amount * tier.percent / 100
 
             elif tier.trigger == 'c': # triggered by commission
@@ -220,29 +220,24 @@ class CommissionCalc(models.Model):
         for root_node in root_nodes:
             child_nodes = root_node.child_nodes_deep(root_node.id)
             for child_node in child_nodes:
-                team = child_node.team
-                if not team:
-                    _logger.warning('No team assigned to node: %s' % node.name)
+                manager = child_node.manager
+                if not manager:
+                    _logger.warning('No manager assigned to node: %s' % child_node.name)
                     continue
-                agent_id = team.user_id
-                if not agent_id:
-                    _logger.warning('No manager assigned to team: %s' % team.name)
-                    continue
+                agent_id = manager.id
                 print('=============================================================')
-                print('calc_manager %s' % agent_id.name)
-                self.__calc_for_agent(start_time, agent_id.id, is_manager=True)
+                print('calc_manager %s' % manager.name)
+                self.__calc_for_agent(start_time, agent_id, is_manager=True)
             #calc root note
-            team = root_node.team
-            if not team:
-                _logger.warning('No team assigned to node: %s' % node.name)
+            manager = root_node.manager
+            if not manager:
+                _logger.warning('No manager assigned to node: %s' % root_node.name)
                 continue
-            agent_id = team.user_id
-            if not agent_id:
-                _logger.warning('No manager assigned to team: %s' % team.name)
-                continue
+            agent_id = manager.id
+            
             print('=============================================================')
-            print('calc_manager %s' % agent_id.name)
-            self.__calc_for_agent(start_time, agent_id.id, is_manager=True)
+            print('calc_manager %s' % manager.name)
+            self.__calc_for_agent(start_time, agent_id, is_manager=True)
 
     
     @api.model
@@ -258,17 +253,19 @@ class CommissionCalc(models.Model):
 
     @api.model
     def __get_reports(self, agent_id):
-        #find the team she is manager
-        teams = self.env['crm.team'].search([('user_id', '=', agent_id)])
-        #find the teams node
         arr_reports = []
-        for team in teams:
-            node = self.env['commission.hierarchy'].search([('team', '=', team.id)])
-            for _node in node:
-                child_nodes = node.child_nodes_deep(_node.id)
-                for temp in child_nodes:
-                    arr_reports.extend([user.id for user in temp.team.member_ids])
-                arr_reports.extend([user.id for user in _node.team.member_ids])
+
+        #find the node she manages
+        nodes = self.env['commission.hierarchy'].search([('manager', '=', agent_id)])
+        for node in nodes:
+            child_nodes = node.child_nodes_deep(node.id)
+            for _node in child_nodes:
+                print('number of teams %d' % len(_node.team_ids))
+                for team in _node.team_ids:
+                    arr_reports.extend([user.id for user in team.member_ids])
+            #also include current node
+            for team in node.team_ids:
+                arr_reports.extend([user.id for user in team.member_ids])
             
 
         print('reports %d' % len(arr_reports))
@@ -280,6 +277,8 @@ class CommissionCalc(models.Model):
         product_ids = self.__get_products(product_id, aggregation)
         details = self.env['commission.detail']. search([('product', 'in', product_ids), ('sales_agent', 'in', agents), \
             ('calc_datetime', '>', fields.Datetime.to_string(start_time))])
+
+        print('product ids %s  sales agents %s #details %d' %(product_ids, agents, len(details)))
 
         eligible_amount = 0.0
         trigger_amount = 0.0

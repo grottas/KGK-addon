@@ -15,7 +15,8 @@ class commission_hierarchy(models.Model):
     child_id = fields.One2many('commission.hierarchy', 'parent_id', 'Child nodes')
     parent_left = fields.Integer('Left Parent', index=1)
     parent_right = fields.Integer('Right Parent', index=1)
-    team = fields.Many2one('crm.team', string='Sales team')
+    team_ids = fields.Many2many('crm.team', 'comm_hierarchy_team', 'hierarchy_id', 'team_id', string = 'Sales teams')
+    manager = fields.Many2one('res.users', string = 'Manager')
 
     @api.multi
     def name_get(self):

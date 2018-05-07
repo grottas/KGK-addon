@@ -1,16 +1,53 @@
 <odoo>
-   
+
   <record model="ir.ui.view" id="view_partner_form">
       <field name="name">Customer</field>
       <field name="model">res.partner</field>
       <field name="inherit_id" ref="base.view_partner_form"/>
       <field name="arch" type="xml">
-          <field name = "lang" position = "after">
-              <field name = "year_founded"/>
-              <field name = "num_employees"/>
-              <field name = "capital" />
+          <field name = "vat" position = "after">
+              <field name = "identification_id"/>
           </field>
       </field>
   </record>
+
+
+  <record model="ir.ui.view" id="product_template_form_view">
+    <field name="name">Product_template_view</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_form_view"/>
+    <field name="arch" type="xml">
+        <notebook position="inside">
+            <page name='Information' string="Information">
+                <field name="information" placeholder="Additional product information"/>
+            </page>    
+            <page name="sales" position="replace">
+                <page name="sales" invisible="1"/>
+            </page>         
+        </notebook>
+    </field>
+  </record>
+
+  <record model="ir.ui.view" id="crm_case_form_view_oppor">
+      <field name="name">Lead</field>
+      <field name="model">crm.lead</field>
+      <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+      <field name="arch" type="xml">
+          <field name = "team_id" position = "after">
+              <field name = "source"/>
+          </field>
+      </field>
+  </record>
+
+    <record id="view_users_form" model="ir.ui.view">
+        <field name="name">res.users.form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <field name = "partner_id" position = "after">
+              <field name = "identification_id"/>
+            </field>
+        </field>
+    </record>
 
 </odoo>
