@@ -10,6 +10,7 @@ class CommissionStatus(models.Model):
     identifier = fields.Char(string='External identifier', required=True, index=True)
     partner = fields.Many2one('res.partner', required=True, string='Partner')
     customer = fields.Char(string='Customer', required=True)
+    identification_id = fields.Char(string='Identification number', help='Number of the identificaton document provided by the customer')
     product = fields.Many2one('product.product', required=True, string='Product sold')
     product_category = fields.Many2one('product.category', string='Product category')
     issue = fields.Text(string='Open issues')
@@ -21,6 +22,7 @@ class CommissionStatus(models.Model):
     amount = fields.Float(string='Amount')
     update_date = fields.Datetime('Last update on')
     detail = fields.One2many('commission.status.detail', 'sale_status', string='Status detail')
+    lead_id = fields.Many2one('crm.lead', string='Associated lead')
 
 
 class SaleStatusDetail(models.Model):

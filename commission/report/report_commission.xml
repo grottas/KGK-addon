@@ -19,7 +19,7 @@
                   <span t-field="summary.id.start_date" t-field-options='{"widget": "date"}' />
                 </div>
                  <div class="col-xs-2">
-                  <span t-field="summary.id.end_date" t-field-options='{"format": "dd/mm/Y"}' />
+                  <span t-field="summary.id.end_date" t-field-options='{"widget": "date"}' />
                 </div>
                  <div class="col-xs-2">
                   <span t-field="summary.id.sales_agent" />

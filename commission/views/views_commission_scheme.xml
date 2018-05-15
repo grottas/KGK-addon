@@ -177,6 +177,21 @@
     </field>
   </record>
 
+  <record id="commission_detail_list_view" model="ir.ui.view">
+    <field name="name">commission.detail.list</field>
+    <field name="model">commission.detail</field>
+    <field name="arch" type="xml">
+      <tree create="false" edit="false">
+        <field name="product" readonly="1" />
+        <field name="commission_scheme" readonly="1" />
+        <field name="type" readonly="1"/>
+        <field name="rate" readonly="1"/>
+        <field name="amount" readonly="1"/>
+        <field name="points" readonly="1"/>
+      </tree>
+    </field>
+  </record>
+
   <record id="commission_summary_form_view" model="ir.ui.view">
     <field name="name">commission.summary.form</field>
     <field name="model">commission.summary</field>
@@ -220,7 +235,9 @@
         <field name="sales_agent" readonly="1" />
         <field name="identifier" string="External ID" readonly="1" />
         <field name="customer" readonly="1" />
-        <field name="product" readonly="1" />        
+        <field name="identification_id" readonly="1" />
+        <field name="product" readonly="1" />
+        <field name="issue" readonly="1" />        
         <field name="update_date" readonly="1" />
       </tree>
     </field>

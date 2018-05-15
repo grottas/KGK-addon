@@ -16,27 +16,23 @@ class CommissionReport(models.Model):
 
     @api.model
     def get_report_values(self, userid):
-        #find the users node in the hierarchy - first find the team she is leading and then the node
-        #making assumption only lead of one team
-        print('get_report_data for %d' % userid)
-        teams = self.env['crm.team'].search([('user_id', '=', userid)])
-        if len(teams)  == 0:
-            return []
+        #find the users node in the hierarchy - first find the node she is leading
+        print('get_report_data for %d' % userid)       
 
-        team = teams[0]
-        nodes = self.env['commission.hierarchy'].search([('team', '=', team.id)])
-        if len(nodes) == 0:
-            return []
+        nodes = self.env['commission.hierarchy'].search([('manager', '=', userid)])
+        print('number of nodes %d'  % len(nodes))
 
-        node = nodes[0]
         agent_ids = []
-        agent_ids.extend(node.team.member_ids)
-
-        nodes = self.env['commission.hierarchy'].child_nodes_deep(node.id)
         for node in nodes:
-            for team in node.team:
+            _nodes = self.env['commission.hierarchy'].child_nodes_deep(node.id)
+            for _node in _nodes:
+                for team in _node.team_ids:
+                    agent_ids.extend(team.member_ids)
+
+            #get teams for current node
+            for _team in node.team_ids:
                 agent_ids.extend(team.member_ids)
-        
+
         temp = []
         for id in agent_ids:
             temp.append(id.id)
@@ -44,19 +40,9 @@ class CommissionReport(models.Model):
         #add current user
         temp.append(userid)
         
-        doc_ids = self.env['commission.summary'].search([('sales_agent', 'in', temp)])
+        doc_ids = self.env['commission.summary'].search([('sales_agent', 'in', temp)], order='end_date desc')
         result = self.env['commission.summary'].browse(doc_ids)
-
-        print(result)
-        print('type of result %s' % type(result))
         
-        docs = {
-            'doc_ids' : doc_ids,
-            'doc_model' : self.env['commission.summary'],
-            'docs' : result,
-            'data' : result,
-        }
-
         return result
         
 

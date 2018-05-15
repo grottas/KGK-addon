@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class commission_hierarchy(models.Model):
     _name = 'commission.hierarchy'
@@ -98,12 +99,6 @@ class commission_hierarchy(models.Model):
         return node.parent_id
 
 
-    @api.model
-    def sales_agents(self, node_id):
-        # return all sales agents below this node
-        if not node_id:
-            node_id = 1
-
     
     def __children(self, node):
         result = []
@@ -115,3 +110,21 @@ class commission_hierarchy(models.Model):
             result.extend(self.__children(child))
 
         return result
+
+
+    def get_reports(self, user_id):
+        #return all team members for child nodes this user manages
+        arr_reports = []
+        nodes = self.search([('manager', '=', user_id)])
+        print('number of nodes %d' % len(nodes))
+        for node in nodes:
+            print(node)
+            child_nodes = node.child_nodes_deep(node.id)
+            for _node in child_nodes:
+                for team in _node.team_ids:
+                    arr_reports.extend([user.id for user in team.member_ids])
+            #also include current node
+            for team in node.team_ids:
+                arr_reports.extend([user.id for user in team.member_ids])
+
+        return arr_reports

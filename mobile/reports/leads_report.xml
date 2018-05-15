@@ -1,0 +1,9 @@
+
+<odoo>    
+    <record id="filter_opportunity_product" model="ir.filters">
+        <field name="name">Leads By product</field>
+        <field name="model_id">crm.opportunity.report</field>
+        <field name="product" eval="False"/>
+        <field name="context">{'col_group_by': ['create_date:month'], 'group_by': ['product'], 'measures': ['__count']}</field>
+    </record>
+</odoo>

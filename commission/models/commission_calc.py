@@ -323,3 +323,4 @@ class CommissionCalc(models.Model):
 
         return product_ids
 
+
